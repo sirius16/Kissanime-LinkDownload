@@ -59,10 +59,10 @@ for (i = (episodeLinks.length - startEpisode); i >= (episodeLinks.length - endEp
 	});
 }
 
-function copyToClipboard(text) {
-	window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
-}
+
 for (i of hi) {
 	hello += i + "\n"
 }
-copyToClipboard(hello)
+var obj = $('<textarea />').text(hello);
+$('body').append(obj);
+obj.select().focus();
