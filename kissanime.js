@@ -63,6 +63,5 @@ for (i = (episodeLinks.length - startEpisode); i >= (episodeLinks.length - endEp
 for (i of hi) {
 	hello += i + "\n"
 }
-var obj = $('<textarea />').text(hello);
-$('body').append(obj);
-obj.select().focus();
+console.clear();
+console.log(hello);
