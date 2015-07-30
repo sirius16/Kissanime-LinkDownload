@@ -1,7 +1,6 @@
 var URL = window.location.origin;
 
 var hi = [];
-var hello = "";
 var episodeLinks = $('table.listing a').map(function (i, el) {
 	return $(el).attr('href');
 });
@@ -17,7 +16,7 @@ var long_url;
 
 var startEpisode;
 do {
-	startEpisode = prompt("Enter episode number you want to start from");
+	startEpisode = prompt("Enter episode number you want to start from",episodeLinks.length);
 	if (startEpisode <= 0 || startEpisode > episodeLinks.length) {
 		alert("Episode number entered must be greater than 0 and lesser than total number of eps");
 	} else {
@@ -27,7 +26,7 @@ do {
 
 var endEpisode;
 do {
-	endEpisode = prompt("Enter episode number you want to end at");
+	endEpisode = prompt("Enter episode number you want to end at",startEpisode);
 	if (endEpisode <= 0 || endEpisode > episodeLinks.length || endEpisode < startEpisode) {
 		alert("Episode number entered must be greater than 0 and lesser than total number of eps");
 	} else {
@@ -60,8 +59,9 @@ for (i = (episodeLinks.length - startEpisode); i >= (episodeLinks.length - endEp
 }
 
 
-for (i of hi) {
-	hello += i + "\n"
-}
+var hello = hi.join("\n")
 console.clear();
-console.log(hello);
+var obj=$("<textarea />").text(hello);
+$("body").append(obj);
+obj.select().focus();
+alert(hi.length+"links ready");
