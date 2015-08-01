@@ -1,22 +1,26 @@
 var URL = window.location.origin;
-
 var hi = [];
-var episodeLinks = $('table.listing a').map(function (i, el) {
-	return $(el).attr('href');
+
+
+var episodeLinks = $j('table.listing a').map(function (i, el) {
+		return $j(el).attr('href');
+	});
+
+
+$j.ajaxSetup({
+	async : false
 });
 
-$.ajaxSetup({
-	async: false
-});
-$.getScript("http://kissanime.com/Scripts/asp.js");
 
+$j.getScript("http://kissanime.com/Scripts/asp.js");
 var login = "vergo777";
 var api_key = "R_6a13f014b38f4f80a31cf7d80a7c18c7";
 var long_url;
-
 var startEpisode;
+
+
 do {
-	startEpisode = prompt("Enter episode number you want to start from",episodeLinks.length);
+	startEpisode = prompt("Enter episode number you want to start from", episodeLinks.length);
 	if (startEpisode <= 0 || startEpisode > episodeLinks.length) {
 		alert("Episode number entered must be greater than 0 and lesser than total number of eps");
 	} else {
@@ -24,9 +28,10 @@ do {
 	}
 } while (true);
 
+
 var endEpisode;
 do {
-	endEpisode = prompt("Enter episode number you want to end at",startEpisode);
+	endEpisode = prompt("Enter episode number you want to end at", startEpisode);
 	if (endEpisode <= 0 || endEpisode > episodeLinks.length || endEpisode < startEpisode) {
 		alert("Episode number entered must be greater than 0 and lesser than total number of eps");
 	} else {
@@ -34,34 +39,33 @@ do {
 	}
 } while (true);
 
+
 var i;
 for (i = (episodeLinks.length - startEpisode); i >= (episodeLinks.length - endEpisode); i--) {
 	jQuery.ajax({
-		url: URL + episodeLinks[i],
-		success: function (result) {
-			var $result = eval($(result));
+		url : URL + episodeLinks[i],
+		success : function (result) {
+			var $result = eval($j(result));
 			var stringStart = result.search("var wra");
 			var stringEnd = result.search("document.write");
 			var javascriptToExecute = result.substring(stringStart, stringEnd);
 			eval(javascriptToExecute);
-
-			$("body").append('<div id="episode' + i + '" style="display: none;"></div>');
-			$('#episode' + i).append(wra);
-
-			var downloadQualityOptions = $('#episode' + i + ' a').map(function (i, el) {
-				return $(el);
-			});
+			$j("body").append('<div id="episode' + i + '" style="display: none;"></div>');
+			$j('#episode' + i).append(wra);
+			var downloadQualityOptions = $j('#episode' + i + ' a').map(function (i, el) {
+					return $j(el);
+				});
 			hi.push(episodeLinks[i].split("/")[3].split("?")[0] + "\t" + downloadQualityOptions[0][0].href);
 		},
-		async: false,
-		script: true
+		async : false,
+		script : true
 	});
 }
 
 
-var hello = hi.join("\n")
+var hello = hi.join("\n");
 console.clear();
-var obj=$("<textarea />").text(hello);
-$("body").append(obj);
+var obj = $j("<textarea />").text(hello);
+$j("body").append(obj);
 obj.select().focus();
-alert(hi.length+"links ready");
+alert(hi.length + "links ready");
