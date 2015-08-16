@@ -5,7 +5,7 @@ var hi = [];
 var episodeLinks = $j('table.listing a').map(function (i, el) {
 		return $j(el).attr('href');
 	});
-
+$j("table.listing a").before(function(index) {return episodeLinks.length-index})
 
 $j.ajaxSetup({
 	async : false
