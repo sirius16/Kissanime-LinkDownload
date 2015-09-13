@@ -53,7 +53,7 @@ for (i = (episodeLinks.length - startEpisode); i >= (episodeLinks.length - endEp
 		var downloadQualityOptions = $j('#episode' + i + ' a').map(function (i, el) {
 				return $j(el);
 			});
-		hi.push('"'+$result.find("#divFileName")[0].innerText.split("\n")[2]'" "' + downloadQualityOptions[0][0].href)+'"';
+		hi.push('"'+$result.find("#divFileName")[0].innerText.split("\n")[2]'.mp4" "' + downloadQualityOptions[0][0].href)+'"';
 	});
 }
 
