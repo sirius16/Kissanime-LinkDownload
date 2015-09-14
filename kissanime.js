@@ -1,23 +1,23 @@
 var URL = window.location.origin;
 var hi = [];
-
+var hello = [];
 
 var episodeLinks = $j('table.listing a').map(function (i, el) {
 		return $j(el).attr('href');
 	});
-$j("table.listing a").before(function(index) {return episodeLinks.length-index})
+$j("table.listing a").before(function (index) {
+	return episodeLinks.length - index
+})
 
 $j.ajaxSetup({
 	async : false
 });
-
 
 $j.getScript("http://kissanime.com/Scripts/asp.js");
 var login = "vergo777";
 var api_key = "R_6a13f014b38f4f80a31cf7d80a7c18c7";
 var long_url;
 var startEpisode;
-
 
 do {
 	startEpisode = prompt("Enter episode number you want to start from", episodeLinks.length);
@@ -28,7 +28,6 @@ do {
 	}
 } while (true);
 
-
 var endEpisode;
 do {
 	endEpisode = prompt("Enter episode number you want to end at", episodeLinks.length);
@@ -38,7 +37,6 @@ do {
 		break;
 	}
 } while (true);
-
 
 var i;
 for (i = (episodeLinks.length - startEpisode); i >= (episodeLinks.length - endEpisode); i--) {
@@ -53,14 +51,23 @@ for (i = (episodeLinks.length - startEpisode); i >= (episodeLinks.length - endEp
 		var downloadQualityOptions = $j('#episode' + i + ' a').map(function (i, el) {
 				return $j(el);
 			});
-		hi.push('"'+$result.find("#divFileName")[0].innerText.split("\n")[2]'.mp4" "' + downloadQualityOptions[0][0].href)+'"';
+		if (downloadQualityOptions[0][0].href.match(/googlevideo/i))
+			hi.push(encodeURI($result.find("#divFileName")[0].innerText.split("\n")[2]) + "\t" + downloadQualityOptions[0][0].href);
+		else
+			hello.push('wget -b -O "' + $result.find("#divFileName")[0].innerText.split("\n")[2] + '.mp4" "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
 	});
 }
 
-
-
-var hello = hi.join("\n");
-var obj = $j("<textarea />").text(hello);
+date = new Date();
+date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+time = date.toJSON().replace(/T|\..*/g, " ").replace(/:/g, "-").trim();
+var link = document.createElement('a');
+link.download = time + ".bat";
+link.href = 'data:,' + hello.join("\r\n");
+if (hello.length)
+	link.click();
+var hi2 = hi.join("\n");
+var obj = $j("<textarea />").text(hi2);
 $j("body").append(obj);
 obj.select().focus();
 alert(hi.length + " links ready");
