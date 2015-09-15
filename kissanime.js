@@ -63,7 +63,7 @@ date = new Date();
 date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
 time = date.toJSON().replace(/T|\..*/g, " ").replace(/:/g, "-").trim();
 var link = document.createElement('a');
-link.download = time + ".bat";
+link.download = time + ".txt";
 link.href = 'data:,' + hello.join("\r\n");
 if (hello.length)
 	link.click();
