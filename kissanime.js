@@ -51,10 +51,11 @@ for (i = (episodeLinks.length - startEpisode); i >= (episodeLinks.length - endEp
 		var downloadQualityOptions = $j('#episode' + i + ' a').map(function (i, el) {
 				return $j(el);
 			});
-		if (downloadQualityOptions[0][0].href.match(/googlevideo/i))
-			hi.push(encodeURI($result.find("#divFileName")[0].innerText.split("\n")[2]) + "\t" + downloadQualityOptions[0][0].href);
-		else
-			hello.push('wget -b -O "' + $result.find("#divFileName")[0].innerText.split("\n")[2] + '.mp4" "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
+		var episodeName = result.body.innerText.match(/Filename.*/)[0].replace(/.*: /, "")
+			if (downloadQualityOptions[0][0].href.match(/googlevideo/i))
+				hi.push(encodeURI(episodeName) + "\t" + downloadQualityOptions[0][0].href);
+			else
+				hello.push('wget -b -O "' + episodeName + '.mp4" "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
 	});
 }
 
