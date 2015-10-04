@@ -67,7 +67,7 @@ s.onload = function () {
 	time = date.toJSON().replace(/T|\..*/g, " ").replace(/:/g, "-").trim();
 	var link = document.createElement('a');
 	link.download = time + ".txt";
-	link.href = 'data:,' + hello.join("\r\n");
+	link.href = 'data:,' + hello.join(";");
 	if (hello.length)
 		link.click();
 	var hi2 = hi.join("\n");
