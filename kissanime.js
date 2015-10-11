@@ -55,9 +55,9 @@ s.onload = function () {
 					return $j(el);
 				});
 			var episodeName = $j("#divFileName", $result)[0].innerText.match(/Filename.*\n.*/)[0].split("\n")[1]
-//				if (downloadQualityOptions[0][0].href.match(/googlevideo/i))
-//					hi.push(encodeURI(episodeName) + "\t" + downloadQualityOptions[0][0].href);
-//				else
+				if (downloadQualityOptions[0][0].href.match(/googlevideo/i))
+					hi.push(encodeURI(episodeName) + "\t" + downloadQualityOptions[0][0].href);
+				else
 					hello.push('wget -b -O "' + episodeName + '.mp4" "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
 		});
 	}
