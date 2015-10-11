@@ -62,18 +62,9 @@ s.onload = function () {
 		});
 	}
 
-	date = new Date();
-	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-	time = date.toJSON().replace(/T|\..*/g, " ").replace(/:/g, "-").trim();
-	var link = document.createElement('a');
-	link.download = time + ".txt";
-	link.href = 'data:,' + hello.join(";");
+	obj(hi.join("\n"));
 	if (hello.length)
-		link.click();
-	var hi2 = hi.join("\n");
-	var obj = $j("<textarea />").text(hi2);
-	$j("body").append(obj);
-	obj.select().focus();
-	alert(hello.length + " links ready");
+		obj(hello.join("\n"));
+	alert(eval(hello.length + hi.length) + " links ready");
 };
 (document.head || document.documentElement).appendChild(s);
