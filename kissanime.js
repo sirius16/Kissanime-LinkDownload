@@ -73,7 +73,7 @@ function callback() {
 			var downloadQualityOptions = $j('#episode' + i + ' a').map(function (i, el) {
 					return $j(el);
 				});
-			var episodeName = $j("#divFileName", $result)[0].innerText.match(/Filename.*\n.*/)[0].split("\n")[1]
+			var episodeName = $j("#divFileName", $result)[0].innerText.match(/Filename.*\n.*/)[0].split("\n")[1].trim()
 				if (downloadQualityOptions[0][0].href.match(/googlevideo/i))
 					hi.push(encodeURI(episodeName) + "\t" + downloadQualityOptions[0][0].href);
 				else
