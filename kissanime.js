@@ -1,5 +1,5 @@
 var s1 = document.createElement('script');
-s1.src = "http://code.jquery.com/ui/1.11.4/jquery-ui.js";
+s1.src = "https://code.jquery.com/ui/1.11.4/jquery-ui.js";
 var s = document.createElement('script');
 s.src = "/Scripts/asp.js";
 s1.onload = function () {
