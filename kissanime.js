@@ -71,17 +71,19 @@ function callback() {
 				eval(javascriptToExecute);
 				$j("body").append('<div id="episode' + i + '" style="display: none;"></div>');
 				$j('#episode' + i).append(wra);
-			} catch (e) {
-				
-			}
+			} catch (e) {}
 			var downloadQualityOptions = $j('#episode' + i + ' a').map(function (i, el) {
 					return $j(el);
 				});
-			var episodeName = $j("#divFileName", $result)[0].innerText.match(/Filename.*\n.*/)[0].split("\n")[1].trim()
-				if (downloadQualityOptions[0][0].href.match(/googlevideo/i))
-					hi.push(encodeURI(episodeName) + "\t" + downloadQualityOptions[0][0].href);
-				else
-					hello.push('wget -b -O "' + episodeName + '.mp4" "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
+			var episodeName = $j("#divFileName", $result).text();
+			if (!episodeName)
+				return;
+			
+			episodeName=episodeName.split("\n")[2].trim()
+			if (downloadQualityOptions[0][0].href.match(/googlevideo/i))
+				hi.push(encodeURI(episodeName) + "\t" + downloadQualityOptions[0][0].href);
+			else
+				hello.push('wget -b -O "' + episodeName + '.mp4" "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
 		});
 	}
 	$("textarea").remove()
