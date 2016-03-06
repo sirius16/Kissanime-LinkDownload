@@ -67,7 +67,7 @@ function callback() {
 				var javascriptToExecute = result.substring(stringStart, stringEnd);
 				eval(javascriptToExecute);
 				$j("body").append('<div id="episode' + i + '" style="display: none;"></div>');
-				$j('#episode' + i).append($j("#divDownload", $result));
+				$j('#episode' + i).append(wra || $j("#divDownload", $result));
 			} catch (e) {}
 			var downloadQualityOptions = $j('#episode' + i + ' a').map(function (i, el) {
 					return $j(el);
