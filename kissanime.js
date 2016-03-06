@@ -24,7 +24,6 @@ function callback() {
 			return $j(el).attr('href');
 		});
 
-
 	$j.ajaxSetup({
 		async : false
 	});
@@ -68,16 +67,17 @@ function callback() {
 				var javascriptToExecute = result.substring(stringStart, stringEnd);
 				eval(javascriptToExecute);
 				$j("body").append('<div id="episode' + i + '" style="display: none;"></div>');
-				$j('#episode' + i).append(wra);
+				$j('#episode' + i).append($j("#divDownload", $result));
 			} catch (e) {}
 			var downloadQualityOptions = $j('#episode' + i + ' a').map(function (i, el) {
 					return $j(el);
 				});
-			var episodeName = $j("#divFileName", $result).text();
+			var episodeName = $j("#divFileName", $result).contents().filter(function () {
+					return this.nodeType == 3
+				}).eq(1).text().trim();
 			if (!episodeName)
 				return;
-			
-			episodeName=episodeName.split("\n")[2].trim()
+
 			if (downloadQualityOptions[0][0].href.match(/googlevideo/i))
 				hi.push(encodeURI(episodeName) + "\t" + downloadQualityOptions[0][0].href);
 			else
