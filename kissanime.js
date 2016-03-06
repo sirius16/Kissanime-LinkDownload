@@ -62,6 +62,7 @@ function callback() {
 		$j.get(URL + episodeLinks[i], function (result) {
 			var $result = $j("<html />").append($j.parseHTML(result));
 			try {
+				var wra;
 				var stringStart = result.search("var wra");
 				var stringEnd = result.search("document.write");
 				var javascriptToExecute = result.substring(stringStart, stringEnd);
