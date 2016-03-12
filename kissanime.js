@@ -79,8 +79,8 @@ function callback() {
 			if (!episodeName)
 				return;
 
-			if (downloadQualityOptions[0][0].href.match(/googlevideo/i))
-				hi.push(encodeURI(episodeName) + "\t" + downloadQualityOptions[0][0].href);
+			if (downloadQualityOptions[0][0].href.match(/onedrive/i))
+				hi.push('wget -b "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
 			else
 				hello.push('wget -b -O "' + episodeName + '.mp4" "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
 		});
