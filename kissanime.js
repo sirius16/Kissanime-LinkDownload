@@ -1,21 +1,21 @@
-var s1 = document.createElement('script');
-s1.src = "https://code.jquery.com/ui/1.11.4/jquery-ui.js";
-var s = document.createElement('script');
-s.src = "/Scripts/asp.js";
-s1.onload = function () {
-	(document.head || document.documentElement).appendChild(s);
-}
-s.onload = function () {
-	try {
-		$j(this).remove();
-		$j("head").append('<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">')
-		callback();
-	} catch (e) {
-		alert(e)
-	}
-}
-function callback() {
 
+function chainScripts(scripts, success) {
+	if (scripts.length) {
+		var s = document.createElement('script');
+		s.src = scripts.splice(-1)[0];
+		s.onload = function () {
+			$j(this).remove();
+			chainScripts(scripts)
+		};
+		(document.head || document.documentElement).appendChild(s);
+	} else
+		success();
+}
+
+chainScripts(["/Scripts/aes.js", "/Scripts/pbkdf2.js", "/Scripts/kissenc.min.js", "/Scripts/jquery17.min.js", "/Scripts/asp.js", "https://code.jquery.com/ui/1.11.4/jquery-ui.js"].reverse(), callback())
+
+function callback() {
+	$j("head").append('<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">')
 	var URL = window.location.origin;
 	var hi = [];
 	var hello = [];
@@ -61,15 +61,16 @@ function callback() {
 	for (i = (episodeLinks.length - startEpisode); i >= (episodeLinks.length - endEpisode); i--) {
 		$j.get(URL + episodeLinks[i], function (result) {
 			var $result = $j("<html />").append($j.parseHTML(result));
-			try {
-				var wra;
-				var stringStart = result.search("var wra");
-				var stringEnd = result.search("document.write");
-				var javascriptToExecute = result.substring(stringStart, stringEnd);
-				eval(javascriptToExecute);
-				$j("body").append('<div id="episode' + i + '" style="display: none;"></div>');
-				$j('#episode' + i).append(wra || $j("#divDownload", $result));
-			} catch (e) {}
+
+			var wra;
+			var stringStart = result.search("var wra");
+			var stringEnd = result.search("document.write");
+			var javascriptToExecute = result.substring(stringStart, stringEnd);
+			if (result.match(/var wra.*\$kissenc.*\(.*\)/))
+				eval(result.match(/var wra.*\$kissenc.*\(.*\)/)[0]);
+			$j("body").append('<div id="episode' + i + '" style="display: none;"></div>');
+			$j('#episode' + i).append(wra || $j("#divDownload", $result));
+
 			var downloadQualityOptions = $j('#episode' + i + ' a').map(function (i, el) {
 					return $j(el);
 				});
@@ -93,5 +94,3 @@ function callback() {
 	$("<div />").append($("textarea")).dialog({})
 	alert(eval(hello.length + hi.length) + " links ready");
 };
-
-(document.head || document.documentElement).appendChild(s1);
