@@ -1,18 +1,19 @@
 
 function chainScripts(scripts, success) {
+
 	if (scripts.length) {
 		var s = document.createElement('script');
 		s.src = scripts.splice(-1)[0];
 		s.onload = function () {
-			$j(this).remove();
-			chainScripts(scripts)
+
+			chainScripts(scripts, success)
 		};
 		(document.head || document.documentElement).appendChild(s);
 	} else
 		success();
 }
 
-chainScripts(["/Scripts/aes.js", "/Scripts/pbkdf2.js", "/Scripts/kissenc.min.js", "/Scripts/jquery17.min.js", "/Scripts/asp.js", "https://code.jquery.com/ui/1.11.4/jquery-ui.js"].reverse(), callback())
+chainScripts(["/Scripts/aes.js", "/Scripts/pbkdf2.js", "/Scripts/kissenc.min.js", "/Scripts/jquery17.min.js", "/Scripts/asp.js", "https://code.jquery.com/ui/1.11.4/jquery-ui.js"].reverse(), callback)
 
 function callback() {
 	$j("head").append('<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">')
@@ -94,3 +95,5 @@ function callback() {
 	$("<div />").append($("textarea")).dialog({})
 	alert(eval(hello.length + hi.length) + " links ready");
 };
+
+
