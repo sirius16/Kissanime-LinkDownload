@@ -13,7 +13,7 @@ function chainScripts(scripts, success) {
 		success();
 }
 
-chainScripts(["/Scripts/aes.js", "/Scripts/pbkdf2.js", "/Scripts/kissenc.min.js", "/Scripts/jquery17.min.js", "/Scripts/asp.js", "https://code.jquery.com/ui/1.11.4/jquery-ui.js"].reverse(), callback)
+chainScripts((location.href.match(/kisscartoon/) ? ["/Scripts/aes.js", "/Scripts/pbkdf2.js", "/Scripts/kissenc.min.js", "/Scripts/jquery17.min.js", "/Scripts/asp.js", "https://code.jquery.com/ui/1.11.4/jquery-ui.js"] : ["https://code.jquery.com/ui/1.11.4/jquery-ui.js"]).reverse(), callback)
 
 function callback() {
 	$j("head").append('<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">')
@@ -95,5 +95,4 @@ function callback() {
 	$("<div />").append($("textarea")).dialog({})
 	alert(eval(hello.length + hi.length) + " links ready");
 };
-
 
