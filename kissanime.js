@@ -43,7 +43,7 @@ function callback() {
 	});
 	do {
 
-		startEpisode = prompt("Enter episode number you want to start from", episodeLinks.length);
+		startEpisode = parseInt(prompt("Enter episode number you want to start from", episodeLinks.length),10);
 		if (startEpisode <= 0 || startEpisode > episodeLinks.length || endEpisode <= 0 || endEpisode > episodeLinks.length || endEpisode < startEpisode) {
 			alert("Episode number entered must be greater than 0 and lesser than total number of eps");
 		} else {
@@ -51,7 +51,7 @@ function callback() {
 		}
 	} while (true);
 	do {
-		endEpisode = prompt("Enter episode number you want to end at", episodeLinks.length);
+		endEpisode = parseInt(prompt("Enter episode number you want to end at", episodeLinks.length),10);
 		if (endEpisode <= 0 || endEpisode > episodeLinks.length || endEpisode < startEpisode) {
 			alert("Episode number entered must be greater than 0 and lesser than total number of eps");
 		} else {
