@@ -15,6 +15,10 @@ function chainScripts(scripts, success) {
 
 chainScripts((location.href.match(/kisscartoon/) ? ["/Scripts/aes.js", "/Scripts/pbkdf2.js", "/Scripts/kissenc.min.js", "/Scripts/jquery17.min.js", "/Scripts/asp.js", "https://code.jquery.com/ui/1.11.4/jquery-ui.js"] : ["https://code.jquery.com/ui/1.11.4/jquery-ui.js"]).reverse(), callback)
 
+var login = "sirius16";
+var api_key = "R_6a13f014b38f4f80a31cf7d80a7c18c7";
+var long_url;
+
 function callback() {
 	$j("head").append('<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">')
 	var URL = window.location.origin;
@@ -81,6 +85,9 @@ function callback() {
 			if (!episodeName)
 				return;
 
+			long_url = downloadQualityOptions[0][0].href;
+			console.log(i);
+			get_short_url(long_url, login, api_key);
 			if (downloadQualityOptions[0][0].href.match(/onedrive/i))
 				hi.push('wget -b "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
 			else
@@ -96,3 +103,16 @@ function callback() {
 	alert(eval(hello.length + hi.length) + " links ready");
 };
 
+function get_short_url(long_url, login, api_key) {
+	$.getJSON(
+		"https://api-ssl.bitly.com/v3/shorten?callback=?", {
+		"format" : "json",
+		"apiKey" : api_key,
+		"login" : login,
+		"longUrl" : long_url,
+		async : true
+	},
+		function (response) {
+		console.log(response.data.url);
+	});
+}
