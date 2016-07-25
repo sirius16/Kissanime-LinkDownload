@@ -33,9 +33,6 @@ function callback() {
 		async : false
 	});
 
-	var login = "vergo777";
-	var api_key = "R_6a13f014b38f4f80a31cf7d80a7c18c7";
-	var long_url;
 	var startEpisode;
 	var endEpisode;
 	$("form:gt(0)").submit(function () {
