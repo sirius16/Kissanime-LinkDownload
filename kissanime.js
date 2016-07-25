@@ -13,7 +13,7 @@ function chainScripts(scripts, success) {
 		success();
 }
 
-chainScripts((location.href.match(/kisscartoon|facebook/) ? ["/Scripts/aes.js", "/Scripts/pbkdf2.js", "/Scripts/kissenc.min.js", "/Scripts/jquery17.min.js", "/Scripts/asp.js", "https://code.jquery.com/ui/1.11.4/jquery-ui.js"] : ["https://code.jquery.com/ui/1.11.4/jquery-ui.js"]).reverse(), callback)
+chainScripts((location.href.match(/kisscartoon|facebook/) ? ["http://kisscartoon.me/Scripts/aes.js", "http://kisscartoon.me/Scripts/pbkdf2.js", "http://kisscartoon.me/Scripts/kissenc.min.js", "http://kisscartoon.me/Scripts/jquery17.min.js", "http://kisscartoon.me/Scripts/asp.js", "https://code.jquery.com/ui/1.11.4/jquery-ui.js"] : ["https://code.jquery.com/ui/1.11.4/jquery-ui.js"]).reverse(), callback)
 
 var login = "sirius16";
 var api_key = "R_6a13f014b38f4f80a31cf7d80a7c18c7";
