@@ -93,9 +93,9 @@ function callback() {
 	}
 	$("textarea").remove()
 	if (hi.length)
-		obj(hi.join("\n"));
+		obj(hi.join("\n")+"\n");
 	if (hello.length)
-		obj(hello.join("\n"));
+		obj(hello.join("\n")+"\n");
 	$("<div />").append($("textarea")).dialog({})
 	alert(eval(hello.length + hi.length) + " links ready");
 };
