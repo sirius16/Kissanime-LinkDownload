@@ -61,7 +61,7 @@ function callback() {
 
 	var i;
 	for (i = (episodeLinks.length - startEpisode); i >= (episodeLinks.length - endEpisode); i--) {
-		$j.get(URL + episodeLinks[i], function (result) {
+		$j.get(URL + episodeLinks[i], {login:"amozu16"}, function (result) {
 			var $result = $j("<html />").append($j.parseHTML(result));
 
 			var wra;
@@ -90,6 +90,8 @@ function callback() {
 			else
 				hello.push('wget -b -O "' + episodeName + '.mp4" "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
 		});
+			$j.post(URL + episodeLinks[i], {login:"amozu16"})
+
 	}
 	$("textarea").remove()
 	if (hi.length)
