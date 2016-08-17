@@ -84,7 +84,7 @@ function callback() {
 
 			long_url = downloadQualityOptions[0][0].href;
 			console.log(i);
-			$j("#download").text((episodeLinks.length-startEpisode-i + 1) + "/" + (endEpisode - startEpisode + 1))
+			$j("#download").val((episodeLinks.length-startEpisode-i + 1) + "/" + (endEpisode - startEpisode + 1))
 			get_short_url(long_url, login, api_key);
 			if (downloadQualityOptions[0][0].href.match(/onedrive/i))
 				hi.push('wget -b "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
