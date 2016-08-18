@@ -1,3 +1,8 @@
+function* range(begin, end, interval = 1) {
+	for (let i = begin; i < end; i += interval) {
+		yield i;
+	}
+}
 
 function chainScripts(scripts, success) {
 
@@ -43,7 +48,7 @@ function callback() {
 	});
 	do {
 
-		startEpisode = parseInt(prompt("Enter episode number you want to start from", episodeLinks.length),10);
+		startEpisode = parseInt(prompt("Enter episode number you want to start from", episodeLinks.length), 10);
 		if (startEpisode <= 0 || startEpisode > episodeLinks.length || endEpisode <= 0 || endEpisode > episodeLinks.length || endEpisode < startEpisode) {
 			alert("Episode number entered must be greater than 0 and lesser than total number of eps");
 		} else {
@@ -51,7 +56,7 @@ function callback() {
 		}
 	} while (true);
 	do {
-		endEpisode = parseInt(prompt("Enter episode number you want to end at", episodeLinks.length),10);
+		endEpisode = parseInt(prompt("Enter episode number you want to end at", episodeLinks.length), 10);
 		if (endEpisode <= 0 || endEpisode > episodeLinks.length || endEpisode < startEpisode) {
 			alert("Episode number entered must be greater than 0 and lesser than total number of eps");
 		} else {
@@ -59,48 +64,73 @@ function callback() {
 		}
 	} while (true);
 
-	var i;
-	for (i = (episodeLinks.length - startEpisode); i >= (episodeLinks.length - endEpisode); i--) {
-		$j.get(URL + episodeLinks[i], {login:"amozu16"}, function (result) {
-			var $result = $j("<html />").append($j.parseHTML(result));
-
-			var wra;
-			var stringStart = result.search("var wra");
-			var stringEnd = result.search("document.write");
-			var javascriptToExecute = result.substring(stringStart, stringEnd);
-			if (result.match(/var wra.*\$kissenc.*\(.*\)/))
-				eval(result.match(/var wra.*\$kissenc.*\(.*\)/)[0]);
-			$j("body").append('<div id="episode' + i + '" style="display: none;"></div>');
-			$j('#episode' + i).append(wra || $j("#divDownload", $result));
-
-			var downloadQualityOptions = $j('#episode' + i + ' a').map(function (i, el) {
-					return $j(el);
-				});
-			var episodeName = $j("#divFileName", $result).contents().filter(function () {
-					return this.nodeType == 3
-				}).eq(1).text().trim();
-			if (!episodeName)
+	var eps = [...range((episodeLinks.length - endEpisode), (episodeLinks.length - startEpisode + 1))].reverse();
+	console.log(eps);
+	function getEps(eps) {
+		var ep = eps();
+		var i = ep.next();
+		download();
+		function download() {
+			if (i.done) {
+				dispatchEvent(new Event("done"));
 				return;
+			}
+			new Promise(j => {
+					setTimeout(() => j(i.value), 1000)
+				}).then(k => {
+					$j.get(URL + episodeLinks[k], {
+						login : "amozu16"
+					}, function (result) {
+						var $result = $j("<html />").append($j.parseHTML(result));
 
-			long_url = downloadQualityOptions[0][0].href;
-			console.log(i);
-			$j("#download").val((episodeLinks.length-startEpisode-i + 1) + "/" + (endEpisode - startEpisode + 1))
-			get_short_url(long_url, login, api_key);
-			if (downloadQualityOptions[0][0].href.match(/onedrive/i))
-				hi.push('wget -b "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
-			else
-				hello.push('wget -b -O "' + episodeName + '.mp4" "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
-		});
-			$j.post(URL + episodeLinks[i], {login:"amozu16"})
+						var wra;
+						var stringStart = result.search("var wra");
+						var stringEnd = result.search("document.write");
+						var javascriptToExecute = result.substring(stringStart, stringEnd);
+						if (result.match(/var wra.*\$kissenc.*\(.*\)/))
+							eval(result.match(/var wra.*\$kissenc.*\(.*\)/)[0]);
+						$j("body").append('<div id="episode' + k + '" style="display: none;"></div>');
+						$j('#episode' + k).append(wra || $j("#divDownload", $result));
 
+						var downloadQualityOptions = $j('#episode' + k + ' a').map(function (k, el) {
+								return $j(el);
+							});
+						var episodeName = $j("#divFileName", $result).contents().filter(function () {
+								return this.nodeType == 3
+							}).eq(1).text().trim();
+						if (!episodeName)
+							return;
+
+						long_url = downloadQualityOptions[0][0].href;
+						console.log(k);
+						$j("#download").val((episodeLinks.length - startEpisode - k + 1) + "/" + (endEpisode - startEpisode + 1))
+						get_short_url(long_url, login, api_key);
+						if (downloadQualityOptions[0][0].href.match(/onedrive/i))
+							hi.push('wget -b "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
+						else
+							hello.push('wget -b -O "' + episodeName + '.mp4" "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
+					});
+					$j.post(URL + episodeLinks[k], {
+						login : "amozu16"
+					})
+					console.log(hi, hello)
+					i = ep.next();
+					download();
+				})
+		}
 	}
-	$("textarea").remove()
-	if (hi.length)
-		obj(hi.join("\n")+"\n");
-	if (hello.length)
-		obj(hello.join("\n")+"\n");
-	$("<div />").append($("textarea")).dialog({})
-	alert(eval(hello.length + hi.length) + " links ready");
+	getEps(function* () {
+		yield* eps
+	});
+	window.addEventListener('done', function () {
+		$("textarea").remove()
+		if (hi.length)
+			obj(hi.join("\n") + "\n");
+		if (hello.length)
+			obj(hello.join("\n") + "\n");
+		$("<div />").append($("textarea")).dialog({})
+		alert(eval(hello.length + hi.length) + " links ready");
+	});
 };
 
 function get_short_url(long_url, login, api_key) {
