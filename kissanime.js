@@ -76,7 +76,7 @@ function callback() {
 				return;
 			}
 			new Promise(j => {
-					setTimeout(() => j(i.value), 1000)
+					setTimeout(() => j(i.value), 3000)
 				}).then(k => {
 					$j.get(URL + episodeLinks[k], {
 						login : "amozu16"
