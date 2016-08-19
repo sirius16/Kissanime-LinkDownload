@@ -76,7 +76,7 @@ function callback() {
 				return;
 			}
 			new Promise(j => {
-					setTimeout(() => j(i.value), 3000)
+					setTimeout(() => j(i.value), 5000)
 				}).then(k => {
 					$j.get(URL + episodeLinks[k], {
 						login : "amozu16"
@@ -104,7 +104,7 @@ function callback() {
 						long_url = downloadQualityOptions[0][0].href;
 						console.log(k);
 						$j("#download").val((episodeLinks.length - startEpisode - k + 1) + "/" + (endEpisode - startEpisode + 1))
-						get_short_url(long_url, login, api_key);
+						// get_short_url(long_url, login, api_key);
 						if (downloadQualityOptions[0][0].href.match(/onedrive/i))
 							hi.push('wget -b "' + downloadQualityOptions[0][0].href + '"  --no-check-certificate');
 						else
@@ -113,7 +113,7 @@ function callback() {
 					$j.post(URL + episodeLinks[k], {
 						login : "amozu16"
 					})
-					console.log(hi, hello)
+					console.log(hi, hello,k)
 					i = ep.next();
 					download();
 				})
