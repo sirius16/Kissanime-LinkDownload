@@ -86,9 +86,10 @@ function callback() {
 						var wra;
 						var stringStart = result.search("var wra");
 						var stringEnd = result.search("document.write");
+						
 						var javascriptToExecute = result.substring(stringStart, stringEnd);
 						if (result.match(/var wra.*\$kissenc.*\(.*\)/))
-							eval(result.match(/var wra.*\$kissenc.*\(.*\)/)[0]);
+							$kissenc.decrypt(result.match(/var wra.*\$kissenc.*\(.*\)/)[0].slice(18,-2)));
 						$j("body").append('<div id="episode' + k + '" style="display: none;"></div>');
 						$j('#episode' + k).append(wra || $j("#divDownload", $result));
 
