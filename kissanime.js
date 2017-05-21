@@ -4,21 +4,6 @@ function* range(begin, end, interval = 1) {
 	}
 }
 
-function chainScripts(scripts, success) {
-
-	if (scripts.length) {
-		var s = document.createElement('script');
-		s.src = scripts.splice(-1)[0];
-		s.onload = function () {
-
-			chainScripts(scripts, success)
-		};
-		(document.head || document.documentElement).appendChild(s);
-	} else
-		success();
-}
-
-chainScripts((location.href.match(/kisscartoon|facebook/) ? ["http://kisscartoon.me/Scripts/aes.js", "http://kisscartoon.me/Scripts/sha256.min.js", "http://kisscartoon.me/Scripts/kissenc.min.js?v=3", "http://kisscartoon.me/Scripts/jquery17.min.js", "http://kisscartoon.me/Scripts/asp.js", "https://code.jquery.com/ui/1.11.4/jquery-ui.js"] : ["https://code.jquery.com/ui/1.11.4/jquery-ui.js"]).reverse(), callback)
 
 var login = "sirius16";
 var api_key = "R_6a13f014b38f4f80a31cf7d80a7c18c7";
@@ -147,3 +132,5 @@ function get_short_url(long_url, login, api_key) {
 		console.log(response.data.url);
 	});
 }
+
+callback();
